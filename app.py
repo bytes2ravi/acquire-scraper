@@ -12,6 +12,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Set up your web driver (ensure you have ChromeDriver installed and in your PATH)
 import os
@@ -21,8 +22,7 @@ login_url = "https://app.acquire.com/"  # Replace with the actual login URL
 # Load environment variables from .env file
 load_dotenv()
 
-# Get the ChromeDriver path from the environment variable
-chromedriver_path = os.getenv('CHROMEDRIVER_PATH')
+
 MAX_BUDGET_IN_K = 10
 
 # Get login credentials from environment variables
@@ -35,8 +35,8 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")  # Optional: Disable GPU acceleration
 chrome_options.add_argument("--window-size=1920,1080")  # Optional: Set window size
 
-service = Service(chromedriver_path)  # Update with the path to your chromedriver
-driver = webdriver.Chrome(service=service, options=chrome_options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), 
+                          options=chrome_options)
 
 def login_and_navigate(driver):
     # Navigate to login page
