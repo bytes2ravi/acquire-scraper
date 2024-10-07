@@ -13,6 +13,7 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from datetime import datetime
 
 # Set up your web driver (ensure you have ChromeDriver installed and in your PATH)
 import os
@@ -133,6 +134,8 @@ def extract_product_details(driver):
                 "arr": soup.select_one("div.metrics-tile:nth-of-type(2) div.special-metrics").get_text(strip=True) if soup.select_one("div.metrics-tile:nth-of-type(2) div.special-metrics") else "",
                 "AGR": soup.select_one("div:nth-of-type(3) div.special-metrics").get_text(strip=True) if soup.select_one("div:nth-of-type(3) div.special-metrics") else "",
                 "traction": soup.select_one("span.highlight-card__description").get_text(strip=True) if soup.select_one("span.highlight-card__description") else "",
+                "date": datetime.now().strftime("%d/%m/%Y")  # Add current date
+
             })
             # Append the product_id to the fetched_products.json file
             fetched_products.append(product_id)
